@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/contacts/contacts-slise';
+
+import { fetchDeleteContact } from 'redux/contacts/contacts-operation';
 
 import PropTypes from 'prop-types';
 
@@ -8,8 +9,9 @@ import styles from '../App.module.css';
 const ContactItem = ({ contact }) => {
   const { id, name, number } = contact;
   const dispatch = useDispatch();
+
   const handleDeleteContact = id => {
-    dispatch(deleteContact(id));
+    dispatch(fetchDeleteContact(id));
   };
 
   return (
@@ -32,6 +34,6 @@ ContactItem.propTypes = {
   contact: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
   }),
 };

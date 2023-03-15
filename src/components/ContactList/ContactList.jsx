@@ -1,12 +1,20 @@
-import { useSelector } from 'react-redux';
-import { getFilteredContacts } from '../../redux/contacts/contacts-selectors';
-
 import { nanoid } from 'nanoid';
+
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import ContactItem from 'components/ContactItem/ContactItem';
 
+import { getFilteredContacts } from '../../redux/contacts/contacts-selectors';
+import { fetchAllContacts } from 'redux/contacts/contacts-operation';
+
 const ContactList = () => {
   const contacts = useSelector(getFilteredContacts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllContacts());
+  }, [dispatch]);
 
   const elements = contacts.map(contact => (
     <ContactItem key={nanoid()} contact={contact} />
@@ -20,13 +28,3 @@ export default ContactList;
 ContactList.defaultProps = {
   contacts: [],
 };
-
-// ContactList.propTypes = {
-//   removeContact: PropTypes.func.isRequired,
-//   contacts: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       name: PropTypes.string.isRequired,
-//       number: PropTypes.string.isRequired,
-//     })
-//   ),
-// };

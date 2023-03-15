@@ -1,7 +1,6 @@
-import { addContact } from '../../redux/contacts/contacts-slise';
+import { fetchAddContact } from 'redux/contacts/contacts-operation';
 import { useState } from 'react';
-import { getAllContacts } from 'redux/contacts/contacts-selectors';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import initialStateForm from '../initialStateForm';
 
@@ -18,32 +17,11 @@ const PhoneBookForm = () => {
   };
 
   const dispatch = useDispatch();
-  const contacts = useSelector(getAllContacts);
-
-  const isDuplicate = name => {
-    const normalizeName = name.toLowerCase();
-    const contact = contacts.find(({ name }) => {
-      return name.toLowerCase() === normalizeName;
-    });
-    return Boolean(contact);
-  };
-
-  const handleAddContact = ({ name, number }) => {
-    if (isDuplicate(name)) {
-      alert(`${name} is already in contacts`);
-      return false;
-    }
-
-    dispatch(addContact({ name, number }));
-  };
-
   const handleSubmit = e => {
     e.preventDefault();
     const { name } = state;
-    handleAddContact({ name, number });
-    if (!isDuplicate(name)) {
-      setState({ ...initialStateForm });
-    }
+
+    dispatch(fetchAddContact({ name, number }));
   };
 
   const { name, number } = state;
