@@ -8,7 +8,6 @@ import styles from '../App.module.css';
 
 const PhoneBookForm = () => {
   const [state, setState] = useState({ ...initialStateForm });
-
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setState(prevState => {
@@ -17,11 +16,13 @@ const PhoneBookForm = () => {
   };
 
   const dispatch = useDispatch();
+
   const handleSubmit = e => {
     e.preventDefault();
-    const { name } = state;
+    const { name, number } = state;
 
     dispatch(fetchAddContact({ name, number }));
+    setState(initialStateForm);
   };
 
   const { name, number } = state;
